@@ -1,0 +1,91 @@
+# Configurazione modelli per Financial Forecasting Framework
+
+# TimesFM Configuration
+timesfm:
+  context_length: 512
+  horizon: 128
+  backend: "gpu"  # o "cpu"
+  default_frequency: "D"  # Daily
+  
+# Lag-Llama Configuration
+lag_llama:
+  context_length: 32
+  prediction_length: 24
+  lags:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+  num_layers: 12
+  model_dim: 256
+  num_heads: 8
+  dropout: 0.1
+
+# Time Series Transformer Configuration
+transformer:
+  d_model: 512
+  nhead: 8
+  num_encoder_layers: 6
+  num_decoder_layers: 6
+  dim_feedforward: 2048
+  dropout: 0.1
+  context_length: 96
+
+# Training Configuration
+training:
+  batch_size: 32
+  learning_rate: 1e-4
+  epochs: 10
+  weight_decay: 1e-5
+  warmup_steps: 100
+  gradient_clip: 1.0
+  early_stopping_patience: 5
+
+# Data Configuration
+data:
+  default_start_date: null  # null = automatic (2 years ago)
+  default_end_date: null    # null = today
+  train_ratio: 0.8
+  validation_ratio: 0.1
+  test_ratio: 0.1
+  
+  # Data sources
+  sources:
+    yahoo: true
+    alpha_vantage: false  # requires API key
+  
+  # Technical indicators
+  technical_indicators:
+    moving_averages: [7, 14, 30, 50, 200]
+    rsi_period: 14
+    macd:
+      fast_period: 12
+      slow_period: 26
+      signal_period: 9
+    volatility_window: 30
+
+# Prediction Configuration
+prediction:
+  default_horizon: 30
+  confidence_intervals: [0.05, 0.95]  # 90% confidence
+  num_samples: 100  # for probabilistic forecasting
+  
+# Visualization Configuration
+visualization:
+  figsize: [14, 7]
+  dpi: 300
+  style: "seaborn-v0_8"
+  colors:
+    historical: "#2E86AB"
+    prediction: "#A23B72"
+    confidence: "#F18F01"
+
+# Logging Configuration
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  save_to_file: false
+  log_file: "forecasting.log"
