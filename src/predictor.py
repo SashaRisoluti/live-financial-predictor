@@ -3,6 +3,8 @@ import pandas as pd
 from typing import Optional, Dict, Tuple, List
 import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
+from .utils.model_registry import ModelRegistry, register_all_models
+register_all_models()
 
 from .models.base_model import BaseTimeSeriesModel
 from .models.timesfm import TimesFMModel
@@ -35,7 +37,7 @@ class FinancialPredictor:
     
     def __init__(
         self,
-        model_type: str = "timesfm",
+        model_type: str,
         mode: str = "zero-shot",
         api_key: Optional[str] = None,
         device: str = "auto",
@@ -72,11 +74,27 @@ class FinancialPredictor:
         # Carica modello
         print(f"🚀 Inizializzo {model_type} in modalità {mode}...")
         model_class = self.AVAILABLE_MODELS[model_type]
-        self.model: BaseTimeSeriesModel = model_class(
-            mode=mode,
-            device=device,
-            **model_kwargs
-        )
+
+        if device == "auto":
+            import torch
+            device = "cuda" if torch.cuda.is_available() else "cpu"
+        try:
+            self.model = ModelRegistry.create(
+                name=model_type,
+                mode=mode,
+                device=device,
+                **model_kwargs
+            )
+        except ImportError as e:
+            print(f"\n⚠️  {e}")
+            print(f"\n💡 Fallback a Transformer (builtin)...")
+            
+            from .models.transformer import TimeSeriesTransformer
+            self.model = TimeSeriesTransformer(
+                mode=mode,
+                device=device,
+                **model_kwargs
+            )
         
         self.historical_data = None
         self.predictions = None
@@ -322,3 +340,16 @@ class FinancialPredictor:
             results[model_type] = result
         
         return results
+        
+    def list_available_models() -> Dict:
+        return ModelRegistry.list_models()
+
+    def get_model_info(model_name: str) -> Dict:
+        """Info su un modello specifico."""
+        models = ModelRegistry.list_models()
+        
+        if model_name not in models:
+            raise ValueError(f"Modello {model_name} non trovato")
+        
+        return models[model_name]
+
