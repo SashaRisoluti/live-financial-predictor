@@ -1,0 +1,3 @@
+-r base.txt
+-r hf_models.txt
+-r custom_models.txt
