@@ -1,0 +1,15 @@
+# TiRex
+tirex  # Decommentare se vuoi installare
+
+# Toto
+# toto-ts  # Decommentare se vuoi installare
+
+# Moirai (usa transformers)
+# Già coperto da hf_models.txt
+
+# TimesFM
+git+https://github.com/google-research/timesfm.git
+
+# Lag-Llama
+gluonts>=0.14.0
+git+https://github.com/time-series-foundation-models/lag-llama.git
