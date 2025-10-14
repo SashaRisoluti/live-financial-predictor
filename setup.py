@@ -8,13 +8,13 @@ with open("requirements.txt", "r", encoding="utf-8") as fh:
 
 setup(
     name="financial-timeseries-forecast",
-    version="0.1.0",
-    author="Your Name",
-    author_email="your.email@example.com",
+    version="0.2.0",
+    author="Sasha Risoluti",
+    # author_email="your.email@example.com",
     description="Framework modulare per previsioni finanziarie con modelli time series",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/yourusername/financial-forecast",
+    url="https://github.com/SashaRisoluti/live-financial-predictor",
     packages=find_packages(),
     classifiers=[
         "Development Status :: 3 - Alpha",
@@ -31,15 +31,39 @@ setup(
     python_requires=">=3.8",
     install_requires=requirements,
     extras_require={
+        # Install gruppi specifici
+        "hf": [
+            "transformers>=4.30.0",
+            "accelerate>=0.20.0",
+        ],
+        
+        "tirex": [
+            "tirex",
+        ],
+        
+        "timesfm": [
+            "timesfm @ git+https://github.com/google-research/timesfm.git",
+        ],
+        
+        "lag_llama": [
+            "gluonts>=0.14.0",
+            # lag-llama installazione separata
+        ],
+        
+        # Install tutti i modelli
+        "all": [
+            "transformers>=4.30.0",
+            "accelerate>=0.20.0",
+            "tirex",
+            #"toto-ts",
+            # timesfm e lag-llama richiedono install separata
+        ],
+        
+        # Development
         "dev": [
             "pytest>=7.0.0",
             "black>=23.0.0",
             "flake8>=6.0.0",
-            "mypy>=1.0.0",
-        ],
-        "notebooks": [
-            "jupyter>=1.0.0",
-            "ipywidgets>=8.0.0",
         ],
     },
     entry_points={
