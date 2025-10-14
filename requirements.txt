@@ -1,0 +1,9 @@
+# Base installation (core + HF models)
+-r requirements/base.txt
+-r requirements/hf_models.txt
+-r requirements/custom_models.txt
+
+# Per installare modelli custom, vedi requirements/custom_models.txt
+# O installa specifici:
+#   pip install tirex
+#   pip install toto-ts
