@@ -1,30 +1,42 @@
-# Configurazione modelli per Financial Forecasting Framework
+# Chronos Configuration
+chronos:
+  model_name: "amazon/chronos-bolt-base"
+  context_length: 512
+  prediction_length: 64
+  num_samples: 20  # Per probabilistic forecasting
+  temperature: 1.0
+  top_k: 50
+  top_p: 1.0
 
-# TimesFM Configuration
+# PatchTST Configuration
+patchtst:
+  model_name: "ibm/patchtst"
+  context_length: 512
+  patch_length: 16
+  stride: 8
+  prediction_length: 96
+
+# TiRex Configuration
+tirex:
+  model_name: "NX-AI/TiRex"
+  context_length: 512
+  prediction_length: 64
+
+# Moirai Configuration
+moirai:
+  model_name: "Salesforce/moirai-1.0-R-base"
+  context_length: 512
+  prediction_length: 64
+  num_samples: 100
+
+# TimesFM Configuration (già esistente)
 timesfm:
   context_length: 512
   horizon: 128
-  backend: "gpu"  # o "cpu"
-  default_frequency: "D"  # Daily
-  
-# Lag-Llama Configuration
-lag_llama:
-  context_length: 32
-  prediction_length: 24
-  lags:
-    - 1
-    - 2
-    - 3
-    - 4
-    - 5
-    - 6
-    - 7
-  num_layers: 12
-  model_dim: 256
-  num_heads: 8
-  dropout: 0.1
+  backend: "gpu"
+  default_frequency: "D"
 
-# Time Series Transformer Configuration
+# Transformer Configuration (già esistente)
 transformer:
   d_model: 512
   nhead: 8
