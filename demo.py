@@ -162,8 +162,6 @@ def main():
     print("\nNOTA: I dati vengono scaricati in tempo reale da Yahoo Finance.")
     print("      La prima esecuzione potrebbe richiedere qualche minuto.\n")
     
-    input("Premi INVIO per iniziare...")
-    
     try:
         # Demo 1
         demo_zero_shot()
